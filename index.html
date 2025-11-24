@@ -1142,24 +1142,6 @@ document.addEventListener("DOMContentLoaded", () => {
   revealOnScroll(); // jalankan pertama
 });
 </script>
-<audio id="bg-music" loop preload="auto">
-  <source src="bgm.mp3" type="audio/mp3">
-</audio>
-
-<style>
-audio {
-  display: none !important;
-}
-</style>
-
-<script>
-document.addEventListener("click", function() {
-  const audio = document.getElementById("bg-music");
-  audio.volume = 1;
-  audio.play();
-}, { once: true });
-</script>
-
 
 </body>
 </html>
