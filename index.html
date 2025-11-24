@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PW Music — Jasa Remix Lagu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0b0b0b">
+  <style>
+  .price-list-low{
+    margin-top:1rem;
+    background:linear-gradient(180deg,#0e0e0f,#0b0b0b);
+    padding:1rem;
+    border-radius:12px;
+    border:1px solid rgba(245,207,82,0.06);
+  }
+  .price-grid-low{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:.6rem;
+  }
+  .cart-popup{
+  width:min(92%, 360px);
+}
+.skeleton {
+  height:120px;
+  background:#111;
+  border-radius:12px;
+  animation:pulse 1.5s infinite;
+}
+
+  .price-item-low{
+    background:linear-gradient(180deg,#0c0c0c,#070707);
+    padding:.8rem;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.03);
+    text-align:center;
+  }
+  .price-item-low h3{
+    color:var(--gold);
+    font-size:1rem;
+    margin-bottom:.3rem;
+  }
+  .price-item-low p{
+    color:var(--muted);
+    font-size:.9rem;
+    margin-bottom:.5rem;
+  }
+  .price-item-low .buy{
+    background:linear-gradient(90deg,var(--gold),var(--gold-dark));
+    color:#111;
+    padding:.45rem .6rem;
+    border-radius:8px;
+    border:0;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  @media(max-width:420px){
+    .price-grid-low{
+      grid-template-columns:repeat(2,1fr);
+    }
+  }
+</style>
+
+  <style>
+    /* ====== ROOT & RESET ====== */
+    :root{
+      --bg:#070707;
+      --card:#0f0f10;
+      --muted:#bfbfbf;
+      --gold:#f5cf52;
+      --gold-dark:#d4b34a;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --maxW:1100px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:"Poppins",sans-serif;
+      background:var(--bg);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* ====== LAYOUT ====== */
+    .wrap{
+      max-width:var(--maxW);
+      margin:0 auto;
+      padding:1rem;
+    }
+
+    /* ====== INTRO SCREEN ====== */
+    .intro{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,#000,#070707);z-index:9999;
+      flex-direction:column;gap:1rem;
+      animation: introHide 1s ease 2.6s forwards;
+    }
+    .intro .logo-shape{
+      width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      border:3px solid var(--gold);box-shadow:0 0 30px rgba(245,207,82,0.25);
+      overflow:hidden;background:linear-gradient(145deg,#0b0b0b,#151515);
+    }
+    .intro h1{color:var(--gold);letter-spacing:6px;font-weight:700;font-size:1.6rem}
+    .intro p{color:var(--muted);font-size:0.95rem}
+
+    @keyframes introHide{to{opacity:0;visibility:hidden;transform:translateY(-8px)}}
+
+    /* ====== HEADER (glass) ====== */
+    header.app-header{
+      position:sticky;top:0;z-index:999;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter:blur(8px);border-bottom:1px solid rgba(245,207,82,0.06);
+      padding:.9rem;display:flex;align-items:center;gap:1rem;justify-content:space-between;
+    }
+    .brand{
+      display:flex;align-items:center;gap:.9rem;
+    }
+    .brand .logo-img{
+      width:48px;height:48px;border-radius:10px;overflow:hidden;border:2px solid var(--gold);
+      box-shadow:0 6px 18px rgba(245,207,82,0.08);
+      background:linear-gradient(180deg,#0b0b0b,#141414);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .brand .logo-img img{width:100%;height:100%;object-fit:cover}
+    .brand .title{
+      display:flex;flex-direction:column;line-height:1;
+    }
+    .brand .title .name{color:var(--gold);font-weight:700;font-size:1.05rem;letter-spacing:0.6px}
+    .brand .title .tag{color:var(--muted);font-size:0.78rem}
+
+    .actions{display:flex;align-items:center;gap:.6rem}
+    .btn{
+      background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#111;padding:.45rem .8rem;border-radius:999px;font-weight:700;border:none;cursor:pointer;
+      box-shadow:0 6px 18px rgba(245,207,82,0.12);display:inline-flex;align-items:center;gap:.5rem;
+    }
+    .icon-btn{
+      width:44px;height:44px;border-radius:10px;background:var(--glass);display:inline-grid;place-items:center;border:1px solid rgba(255,255,255,0.03);
+      cursor:pointer;
+    }
+
+    /* ====== EQUALIZER BACKGROUND ====== */
+    #equalizer-bg{position:fixed;inset:0;z-index:-1;opacity:.06;filter:blur(6px)}
+
+    /* ====== SEARCH & FILTER ====== */
+    .search-wrap{display:flex;gap:.7rem;align-items:center;margin:1.25rem 0}
+    .search{
+      flex:1;display:flex;align-items:center;gap:.5rem;background:linear-gradient(180deg,#0e0e0f,#0b0b0b);padding:.55rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)
+    }
+    .search input{
+      flex:1;background:transparent;border:0;outline:0;color:var(--muted);font-size:0.95rem;padding:.2rem;
+    }
+    .chip-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
+    .chip{
+      padding:.45rem .7rem;border-radius:999px;border:1px solid rgba(245,207,82,0.12);color:var(--gold);font-weight:600;background:transparent;cursor:pointer;font-size:.88rem;
+    }
+    .chip.active{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#111;box-shadow:0 8px 20px rgba(245,207,82,0.08)}
+
+    /* ====== PRODUCTS GRID ====== */
+    .products{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1rem;
+    }
+    .card{
+      background:linear-gradient(180deg,#0c0c0c,#0a0a0a);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);transition:transform .28s ease,box-shadow .28s ease;
+      display:flex;flex-direction:column;gap:.6rem;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(245,207,82,0.06)}
+    .card .media{
+      height:120px;border-radius:8px;background:linear-gradient(135deg,#131313,#0a0a0a);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted)
+    }
+    .card h4{color:var(--gold);font-size:1rem;margin-top:.2rem}
+    .card p{color:var(--muted);font-size:.9rem;margin-top:.2rem}
+    .card .price{margin-top:.4rem;font-weight:700;color:#fff}
+    .card .row{display:flex;gap:.5rem;margin-top:.6rem}
+    .card .row button{flex:1;border-radius:10px;padding:.5rem;border:0;cursor:pointer;font-weight:700}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+    .btn-gold{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#111}
+
+    /* ====== PRICE LIST PANEL ====== */
+    .price-list{
+      margin-top:1rem;background:linear-gradient(180deg,#0e0e0f,#0b0b0b);padding:1rem;border-radius:12px;border:1px solid rgba(245,207,82,0.06);
+    }
+    .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+    .price-item{background:linear-gradient(180deg,#0c0c0c,#070707);padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,0.03);text-align:center}
+    .price-item h3{color:var(--gold);font-size:1rem;margin-bottom:.3rem}
+    .price-item p{color:var(--muted);font-size:.9rem;margin-bottom:.5rem}
+    .price-item .buy{background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#111;padding:.45rem .6rem;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+
+    /* ====== SECTION TITLES ====== */
+    .section-title{text-align:center;margin:1.6rem 0 0.6rem}
+    .section-title h2{color:var(--gold);font-size:1.05rem}
+    .muted{color:var(--muted);font-size:.95rem;text-align:center;margin-top:.4rem}
+
+    /* ====== TESTIMONIALS, TOP LIST ====== */
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+    .testimonial{background:linear-gradient(180deg,#0d0d0d,#0b0b0b);padding:.9rem;border-radius:12px;border-left:4px solid rgba(245,207,82,0.13);color:var(--muted)}
+
+    /* ====== CART POPUP (floating) ====== */
+    .cart-popup{
+      position:fixed;right:14px;bottom:78px;width:320px;background:linear-gradient(180deg,#0d0d0d,#070707);border-radius:14px;padding:1rem;
+      border:1px solid rgba(245,207,82,0.12);box-shadow:0 20px 50px rgba(0,0,0,0.6);z-index:999;
+      transform:translateY(10px);opacity:0;visibility:hidden;transition:all .26s ease;
+    }
+    .cart-popup.show{transform:translateY(0);opacity:1;visibility:visible}
+    .cart-popup h3{color:var(--gold);text-align:center;margin-bottom:.5rem}
+    .cart-popup ul{max-height:190px;overflow:auto;padding-right:6px}
+    .cart-popup li{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,0.02);color:var(--muted);font-size:.92rem}
+    .cart-total{text-align:right;color:var(--gold);font-weight:800;margin-top:.6rem}
+
+    /* ====== BOTTOM NAV (mobile-app style) ====== */
+    .bottom-nav{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:9999;
+      width:calc(100% - 40px);max-width:760px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      border-radius:999px;padding:.45rem 10px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(245,207,82,0.06);box-shadow:0 12px 40px rgba(0,0,0,0.55)
+    }
+    .nav-item{display:flex;flex-direction:column;align-items:center;color:var(--muted);font-size:.82rem;gap:.25rem}
+    .nav-item.active{color:var(--gold);font-weight:700}
+
+    /* ====== PROMO NOTIF ====== */
+    .promo-notif{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:78px;background:rgba(0,0,0,0.85);color:var(--gold);
+      border:1px solid rgba(245,207,82,0.12);padding:.5rem 1rem;border-radius:12px;z-index:9998;box-shadow:0 8px 30px rgba(245,207,82,0.06)
+    }
+
+    /* ====== UTILS ====== */
+    .hidden{display:none}
+    .center{display:flex;align-items:center;justify-content:center}
+    .mt-1{margin-top:1rem}
+    .mb-1{margin-bottom:1rem}
+
+    /* ====== RESPONSIVE ====== */
+    @media(min-width:900px){
+      .products{grid-template-columns:repeat(3,1fr)}
+      .grid-2{grid-template-columns:repeat(3,1fr)}
+      .bottom-nav{width:520px}
+      .price-grid{grid-template-columns:repeat(4,1fr)}
+    }
+    @media(min-width:1200px){
+      .wrap{padding:1.5rem}
+    }
+    @media(max-width:420px){
+      .brand .title .name{font-size:.95rem}
+      .card .media{height:100px}
+      .products{grid-template-columns:repeat(2,1fr)}
+      .bottom-nav{width:calc(100% - 28px)}
+      .price-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+  <style>
+/* Container tombol WA */
+.wa-admin-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* Tombol */
+/* --- Tombol WhatsApp --- */
+.wa-btn {
+  flex: 1 1 calc(50% - 12px);
+  min-width: 160px;
+
+  padding: 12px 18px;
+  text-align: center;
+
+  background: #25D366;
+  color: #fff;
+
+  border-radius: 10px;
+  text-decoration: none;
+
+  font-weight: 600;
+  font-size: 16px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: 0.25s ease;
+}
+
+/* Hover efek */
+.wa-btn:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+}
+
+/* Admin 2 warna berbeda */
+.wa-btn.admin2 {
+  background: #128C7E;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 480px) {
+  .wa-btn {
+    flex: 1 1 100%;
+    font-size: 17px;
+    padding: 14px 20px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wa-btn {
+    flex: 1 1 calc(50% - 12px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .wa-btn {
+    min-width: 200px;
+  }
+}
+
+</style>
+
+
+
+</head>
+<body>
+
+  <!-- INTRO -->
+  <div class="intro" id="intro">
+    <div class="logo-shape">
+      <img src="logo brand.png" alt="PW Music" style="width:86%;height:86%;object-fit:contain" onerror="this.style.display='none'">
+    </div>
+    <h1>PW MUSIC</h1>
+    <p>Premium Remix • Mixing • Video Clip</p>
+  </div>
+
+  <!-- EQUALIZER CANVAS -->
+  <canvas id="equalizer-bg"></canvas>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;padding:0">
+      <div class="brand">
+        <div class="logo-img" id="logoBox">
+          <img id="siteLogo" src="logo brand.png" alt="PW Music Logo" onerror="document.getElementById('siteLogo').style.display='none';document.getElementById('logoText').style.display='block'">
+        </div>
+        <div class="title">
+          <div class="name" id="logoText" style="display:none">PW Music</div>
+          <div class="tag">Jasa Remix & Produksi</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="icon-btn" title="Search" onclick="document.getElementById('searchInput').focus()">🔎</div>
+        <div class="icon-btn" title="Cart" id="cartBtn" onclick="toggleCart()">🛒 <span id="cartBadge" style="font-size:12px;margin-left:6px;color:var(--gold);font-weight:800"></span></div>
+        <button class="btn" onclick="location.href='member.html'">🔐 Masuk</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOMBOL WA -->
+<div class="wa-admin-container">
+  <a href="https://wa.me/62895368416228" target="_blank" class="wa-btn">
+    Chat Admin Agung
+  </a>
+
+  <a href="https://wa.me/6289659906413" target="_blank" class="wa-btn admin2">
+    Chat Admin Rendy
+  </a>
+</div>
+
+<style>
+.testimoni-section {
+  padding: 30px 15px;
+  margin-top: 30px;
+}
+
+.testi-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+#testimonialSlider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 15px;
+  scrollbar-width: none;
+}
+
+#testimonialSlider::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonial-card {
+  min-width: 300px;
+  background: #111;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 18px;
+  color: #fff;
+  box-shadow: 0 0 20px #0005;
+  transition: transform 0.25s ease;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.03);
+}
+
+.avatar {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(45deg, #ff00c8, #00c3ff);
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.testimonial-card h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.testimonial-card p {
+  font-size: 14px;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.stars {
+  font-size: 18px;
+  color: gold;
+  margin-top: 10px;
+}
+</style>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="wrap" style="padding-bottom:120px">
+
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Cari style remix — contoh: Cinematic, Bootleg..." oninput="searchProduct()" />
+        <div style="width:44px;text-align:center"><button class="btn" onclick="searchProduct()">Cari</button></div>
+      </div>
+    </div>
+
+    <!-- FILTER CHIPS -->
+    <div class="chip-row">
+      <button class="chip active" data-filter="all" onclick="applyChip(this)">Semua</button>
+      <button class="chip" data-filter="terlaris" onclick="applyChip(this)">Terlaris</button>
+      <button class="chip" data-filter="viral" onclick="applyChip(this)">Style Viral</button>
+      <button class="chip" data-filter="100plus" onclick="applyChip(this)">Harga ≥ Rp100.000</button>
+      <button class="chip" data-filter="150plus" onclick="applyChip(this)">≥ Rp150.000</button>
+    </div>
+
+    <!-- PROMO BANNER -->
+     <div class="promo mt-1 reveal">
+    <div class="promo mt-1" style="margin-top:1rem">
+      <div style="background:linear-gradient(90deg,#0e0e0f,#131313);padding:.8rem;border-radius:12px;border:1px solid rgba(245,207,82,0.06);display:flex;align-items:center;gap:.7rem">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(90deg,var(--gold),var(--gold-dark));display:grid;place-items:center;color:#111;font-weight:800">🔥</div>
+        <div>
+          <div style="font-weight:700;color:var(--gold)">Promo Hari Ini</div>
+          <div style="color:var(--muted);font-size:.92rem">Remix premium mulai Rp100.000 — limited slots!</div>
+        </div>
+        <div style="margin-left:auto">
+          <button class="btn" onclick="openPromo()">Ambil</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <section class="products mt-1" id="productContainer" aria-live="polite">
+      <!-- cards generated by JS -->
+    </section>
+
+    <!-- PRICE LIST (banyak pilihan >100k) -->
+     <div class="price-item reveal">
+    <section class="price-list mt-1" aria-label="Price list">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div><h3 style="color:var(--gold);margin:0">📋 Price List Premium</h3><div class="muted">Pilih paket sesuai kebutuhan — semua harga di atas Rp100.000</div></div>
+        <div style="font-size:.9rem;color:var(--muted)">Harga update • Terima custom</div>
+      </div>
+
+      <div class="price-grid mt-1" id="priceGrid">
+        <!-- price items generated by JS -->
+      </div>
+    </section>
+
+    <!-- TOP PRODUCTS -->
+    <section class="section-title">
+      <h2>🔥 Produk Terlaris Minggu Ini</h2>
+      <div class="muted">Data simulasi — peringkat dinamis</div>
+    </section>
+    <ul id="topList" style="list-style:none;margin-top:.6rem;padding:0;text-align:center;color:var(--muted)"></ul>
+
+    <!-- TESTIMONIALS -->
+    <section style="margin-top:1.25rem">
+      <div class="section-title"><h2>💬 Testimoni Pelanggan</h2></div>
+      <div class="grid-2 mt-1">
+        <div class="testimonial">"Hasil remix mantap, delivery cepat!" <div style="margin-top:.6rem;color:var(--gold);font-weight:700">— Dian</div></div>
+        <div class="testimonial">"Rekomendasi untuk content creator, kerja profesional."</div>
+      </div>
+    </section>
+
+    <!-- TRACK ORDER -->
+    <section style="margin-top:1.25rem">
+      <div class="section-title"><h2>📦 Lacak Pesanan</h2></div>
+      <div style="display:flex;gap:.6rem;margin-top:.6rem">
+        <input id="orderId" placeholder="Masukkan ID pesanan..." style="flex:1;padding:.6rem;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:#0b0b0b;color:var(--muted)" />
+        <button class="btn" onclick="trackOrder()">Lacak</button>
+      </div>
+      <div id="trackResult" style="color:var(--muted);margin-top:.6rem"></div>
+    </section>
+
+    <!-- RESELLER -->
+    <section style="margin-top:1.25rem">
+      <div class="section-title"><h2>💼 Peluang Dropship & Reseller</h2></div>
+      <div style="background:linear-gradient(180deg,#0d0d0d,#070707);padding:1rem;border-radius:12px;border:1px solid rgba(245,207,82,0.06);margin-top:.6rem">
+        <p style="color:var(--muted)">Jual produk tanpa stok. Dapatkan 20% komisi tiap penjualan. Kami bantu materi promosi.</p>
+        <a href="https://wa.me/62895368416228?text=Saya%20ingin%20bergabung%20reseller%20PW%20Music" class="btn" style="margin-top:.6rem;display:inline-block">Gabung via WhatsApp</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CART POPUP -->
+  <div class="cart-popup" id="cartPopup" aria-hidden="true">
+    <h3>Keranjangmu</h3>
+    <ul id="cartList"></ul>
+    <div class="cart-total" id="cartTotal">Rp0</div>
+    <div style="display:flex;gap:.6rem;margin-top:.6rem">
+      <button class="btn" style="flex:1" onclick="checkout()">Checkout WA</button>
+      <button class="btn btn-ghost" style="flex:.45" onclick="clearCart()">Clear</button>
+    </div>
+  </div>
+
+  <!-- PROMO NOTIF -->
+  <div class="promo-notif" id="promoNotif">🎉 Diskon 20% untuk remix cinematic!</div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav" role="navigation" aria-label="Main">
+    <div class="nav-item active" data-route="home" onclick="navTo(this)">
+      <div style="font-size:18px">🏠</div><div>Beranda</div>
+    </div>
+    <div class="nav-item" data-route="terlaris" onclick="navTo(this)">
+      <div style="font-size:18px">🔥</div><div>Terlaris</div>
+    </div>
+    <div class="nav-item" data-route="add" onclick="navTo(this)">
+      <div style="font-size:22px;background:linear-gradient(90deg,var(--gold),var(--gold-dark));padding:.42rem;border-radius:10px;color:#111">＋</div><div>Pesan</div>
+    </div>
+    <div class="nav-item" data-route="notif" onclick="navTo(this)">
+      <div style="font-size:18px">📣</div><div>Promo</div>
+    </div>
+    <div class="nav-item" data-route="me" onclick="navTo(this)">
+      <div style="font-size:18px">👤</div><div>Akun</div>
+    </div>
+  </nav>
+
+  <!-- SCRIPTS -->
+  <script>
+    /* ====== EQUALIZER CANVAS ====== */
+    const canvas = document.getElementById("equalizer-bg");
+    const ctx = canvas.getContext?.("2d");
+    function resizeCanvas(){
+      if(!canvas || !ctx) return;
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    let bars = 60;
+    function drawEq(){
+      if(!ctx) return;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const w = canvas.width / bars;
+      for(let i=0;i<bars;i++){
+        const h = Math.random()*80 + 20;
+        ctx.fillStyle = `rgba(245,207,82,${Math.random()*0.12})`;
+        ctx.fillRect(i*w, canvas.height - h - 60, w*0.6, h);
+      }
+    }
+    setInterval(drawEq, 140);
+
+    /* ====== PRODUCTS DATA & RENDER ====== */
+    const products = [
+      {name:"DJ Happy Team", price:120000, tag:"popular"},
+      {name:"Horeg", price:130000, tag:"classic"},
+      {name:"Slow Bass", price:140000, tag:"popular"},
+      {name:"Cinematic Premium", price:150000, tag:"premium"},
+      {name:"Soundtrack Deluxe", price:180000, tag:"premium"},
+      {name:"Plat KT JDM Pro", price:200000, tag:"premium"},
+      {name:"Bootleg Elite", price:170000, tag:"premium"},
+      {name:"Breakbeat Master", price:160000, tag:"premium"},
+      {name:"Jungle Dutch Viral", price:125000, tag:"viral"},
+      {name:"Remix TikTok Viral", price:135000, tag:"viral"},
+      {name:"Full Bass Ultra", price:220000, tag:"premium"},
+      {name:"Remix Koplo Studio", price:110000, tag:"classic"},
+      {name:"Slowmo Cinematic", price:145000, tag:"premium"},
+      {name:"Opening Keren Mix", price:155000, tag:"premium"},
+      {name:"Remix DJ Cewek VIP", price:210000, tag:"premium"},
+      {name:"Remix Musik Viral IG Pro", price:190000, tag:"premium"}
+    ];
+
+    const container = document.getElementById('productContainer');
+    function formatIDR(n){ return "Rp" + n.toLocaleString('id-ID'); }
+
+    function renderProducts(list){
+      container.innerHTML = '';
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="media">${p.name.split(' ')[0]}</div>
+          <h4>${p.name}</h4>
+          <p class="muted">Style remix siap dibuat sesuai request</p>
+          <div class="price">${formatIDR(p.price)}</div>
+          <div class="row">
+            <button class="btn-ghost" onclick="viewProduct('${p.name}',${p.price})">Detail</button>
+            <button class="btn-gold" onclick="addToCart('${p.name}',${p.price})">+ Keranjang</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+    renderProducts(products);
+
+    /* ====== PRICE LIST DATA & RENDER (≥100k) ====== */
+    const pricePackages = [
+      {title:"Starter Remix", price:100000, desc:"1 lagu, basic mix & master, 2 revisi"},
+      {title:"Pro Remix", price:150000, desc:"1 lagu, mixing profesional, 3 revisi"},
+      {title:"Premium Cinematic", price:200000, desc:"1 lagu, cinematic arrangement, video short"},
+      {title:"Deluxe Pack (2 Lagu)", price:250000, desc:"2 lagu, full mixing, 5 revisi"},
+      {title:"VIP Artist Pack", price:300000, desc:"2 lagu + promo teaser, priority delivery"},
+      {title:"Label Ready", price:400000, desc:"Mastering broadcast + stems + contract-ready"},
+      {title:"Custom Production", price:500000, desc:"Full produksi (arrangement & mixing) sesuai brief"}
+    ];
+
+    const priceGrid = document.getElementById('priceGrid');
+    function renderPriceList(){
+      priceGrid.innerHTML = pricePackages.map(p => `
+        <div class="price-item">
+          <h3>${p.title}</h3>
+          <p>${p.desc}</p>
+          <div style="font-weight:800;margin-bottom:.45rem">${formatIDR(p.price)}</div>
+          <button class="buy" onclick="addToCart('${p.title.replace(/'/g,'')}',${p.price})">Pesan Paket</button>
+        </div>
+      `).join('');
+    }
+    renderPriceList();
+
+    /* ====== TOP LIST (dummy stat) ====== */
+    function updateTopList(){
+      const stats = {};
+      products.forEach(p=> stats[p.name] = (stats[p.name]||0) + Math.floor(Math.random()*80)+1 );
+      const sorted = Object.entries(stats).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      const top = document.getElementById('topList');
+      top.innerHTML = sorted.map((s,i)=>`<li style="margin:.25rem 0">${i+1}. ${s[0]} (${s[1]}x)</li>`).join('');
+    }
+    updateTopList();
+
+    /* ====== CART LOGIC (localStorage) ====== */
+    const cart = JSON.parse(localStorage.getItem('pwm_cart')||'[]');
+    const cartListEl = document.getElementById('cartList');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartBadge = document.getElementById('cartBadge');
+
+    function updateCartUI(){
+      cartListEl.innerHTML = cart.map((c,i)=>`<li>${c.name} <span>${formatIDR(c.price)}</span> <button style="background:none;border:0;color:#f66;cursor:pointer" onclick="removeItem(${i})">✖</button></li>`).join('');
+      const total = cart.reduce((s,c)=>s+c.price,0);
+      cartTotalEl.textContent = formatIDR(total);
+      cartBadge.textContent = cart.length ? cart.length : '';
+      localStorage.setItem('pwm_cart', JSON.stringify(cart));
+    }
+    updateCartUI();
+
+    function addToCart(name, price){
+      cart.push({name,price});
+      updateCartUI();
+      showCartPopup();
+      // small toast
+      showToast('Ditambahkan ke keranjang ✅');
+    }
+    function removeItem(i){
+      cart.splice(i,1);
+      updateCartUI();
+    }
+    function clearCart(){ cart.splice(0,cart.length); updateCartUI(); }
+
+    function toggleCart(){
+      const el = document.getElementById('cartPopup');
+      el.classList.toggle('show');
+    }
+    function showCartPopup(){ const el=document.getElementById('cartPopup'); el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),3500) }
+
+    function checkout(){
+      if(cart.length===0){ alert('Keranjang kosong'); return; }
+      const list = cart.map(c=>`${c.name} - ${formatIDR(c.price)}`).join('\n');
+      const total = cart.reduce((s,c)=>s+c.price,0);
+      const msg = encodeURIComponent(`Halo, saya ingin memesan jasa remix:\n${list}\nTotal: ${formatIDR(total)}`);
+      window.open(`https://wa.me/62895368416228?text=${msg}`,'_blank');
+    }
+
+    /* ====== SEARCH & FILTER ====== */
+    function searchProduct(){
+      const q = (document.getElementById('searchInput').value||'').toLowerCase().trim();
+      const filtered = products.filter(p=> p.name.toLowerCase().includes(q) );
+      renderProducts(filtered);
+    }
+    function applyChip(el){
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      el.classList.add('active');
+      const f = el.dataset.filter;
+      if(f==='all') renderProducts(products);
+      else if(f==='100plus') renderProducts(products.filter(p=>p.price>=100000));
+      else if(f==='150plus') renderProducts(products.filter(p=>p.price>=150000));
+      else if(f==='terlaris') renderProducts(products.filter(p=>p.tag==='popular'));
+      else if(f==='viral') renderProducts(products.filter(p=>p.tag==='viral'));
+    }
+
+    /* ====== NAVIGATION (bottom) ====== */
+    function navTo(el){
+      document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+      el.classList.add('active');
+      const route = el.dataset.route;
+      if(route==='terlaris') {
+        applyChip(document.querySelector('.chip[data-filter="terlaris"]'));
+        window.scrollTo({top:450,behavior:'smooth'});
+      } else if(route==='add'){
+        window.scrollTo({top:120,behavior:'smooth'});
+      } else if(route==='notif'){
+        document.getElementById('promoNotif').style.transform='translateY(0)';
+        setTimeout(()=>document.getElementById('promoNotif').style.transform='translateY(12px)',3500);
+      } else if(route==='me'){
+        window.location.href='member.html';
+      } else {
+        applyChip(document.querySelector('.chip[data-filter="all"]'));
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+    }
+
+    /* ====== TRACK ORDER ====== */
+    function trackOrder(){
+      const id = document.getElementById('orderId').value.trim();
+      const out = document.getElementById('trackResult');
+      if(!id) out.textContent = 'Masukkan ID pesanan terlebih dahulu.';
+      else out.textContent = `ID ${id} sedang diproses. Mohon tunggu konfirmasi admin.`;
+    }
+
+    /* ====== UTILS: toast & promo ====== */
+    function showToast(msg){
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;top:18px;right:18px;background:linear-gradient(90deg,var(--gold),var(--gold-dark));color:#111;padding:.6rem 1rem;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,0.6);z-index:99999';
+      document.body.appendChild(t);
+      setTimeout(()=>t.style.opacity='0',1800);
+      setTimeout(()=>t.remove(),2300);
+    }
+
+    function openPromo(){ showToast('Promo diklaim — cek chat WA untuk detail'); }
+
+    /* ====== TESTIMONIALS RENDER (simple) ====== */
+    const testimonials = [
+      {name:'Dian',text:'Pelayanannya cepat dan hasil remix keren!',rating:5},
+      {name:'Rio',text:'Langganan tiap bulan. Profesional.' ,rating:4}
+    ];
+
+    /* ====== ON LOAD INIT ====== */
+    window.addEventListener('DOMContentLoaded',()=>{
+      // hide intro after short time
+      setTimeout(()=>{ document.getElementById('intro').style.display='none'; },1200);
+      // set logo fallback: if image failed, show text
+      const logoImg = document.getElementById('siteLogo');
+      logoImg.onerror = ()=> { document.getElementById('logoText').style.display='block'; }
+      updateCartUI();
+    });
+
+    
+  </script>
+  <section class="price-list-low mt-1">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <h3 style="color:var(--gold);margin:0">💸 Price List Di Bawah 100K</h3>
+      <div class="muted">Pilihan ekonomis — tetap kualitas PW Music</div>
+    </div>
+    <div style="font-size:.9rem;color:var(--muted)">Update terbaru</div>
+  </div>
+
+  <div class="price-grid-low mt-1">
+
+    <div class="price-item-low">
+      <h3>Basic Remix</h3>
+      <p>1 Lagu • Basic Mix • 1 Revisi</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp80.000</div>
+      <button class="buy" onclick="addToCart('Basic Remix',80000)">Pesan</button>
+    </div>
+
+    <div class="price-item-low">
+      <h3>Intro / Opening</h3>
+      <p>Durasi 10–20 detik</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp60.000</div>
+      <button class="buy" onclick="addToCart('Opening Intro',60000)">Pesan</button>
+    </div>
+
+    <div class="price-item-low">
+      <h3>Remix Short</h3>
+      <p>Durasi 30–40 detik</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp75.000</div>
+      <button class="buy" onclick="addToCart('Remix Short',75000)">Pesan</button>
+    </div>
+
+    <div class="price-item-low">
+      <h3>Beat Only</h3>
+      <p>Beat remix siap pakai</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp50.000</div>
+      <button class="buy" onclick="addToCart('Beat Only',50000)">Pesan</button>
+    </div>
+
+    <div class="price-item-low">
+      <h3>Sound FX Pack</h3>
+      <p>Untuk konten creator</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp40.000</div>
+      <button class="buy" onclick="addToCart('Sound FX Pack',40000)">Pesan</button>
+    </div>
+
+    <div class="price-item-low">
+      <h3>Viral Tempo Edit</h3>
+      <p>Adjust tempo + efek</p>
+      <div style="font-weight:700;margin-bottom:.5rem">Rp70.000</div>
+      <button class="buy" onclick="addToCart('Viral Tempo Edit',70000)">Pesan</button>
+    </div>
+
+  </div>
+</section>
+<style>
+.checkout-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:15px;
+  background:#111;
+  border-radius:12px;
+  margin-top:10px;
+  transform: translateX(0%);
+  opacity: 1;
+
+}
+.checkout-form label{
+  font-size:14px;
+  color:#ccc;
+}
+.checkout-form input,
+.checkout-form textarea{
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:#fff;
+  padding:10px;
+  border-radius:8px;
+}
+.checkout-btn{
+  margin-top:10px;
+  background:#25D366;
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  transition:0.2s;
+}
+.checkout-btn:hover{
+  opacity:0.9;
+}
+
+</style>
+<div class="checkout-form">
+  <label>Nama Anda</label>
+  <input type="text" id="inputNama" placeholder="Masukkan nama" required>
+
+  <label>Judul Lagu / Project</label>
+  <input type="text" id="inputJudul" placeholder="Contoh: DJ Slow - Jangan Pergi">
+
+  <label>Catatan Tambahan</label>
+  <textarea id="inputCatatan" placeholder="Misal: tempo 100 BPM, suasana cinematic"></textarea>
+
+  <button id="checkoutWA" class="checkout-btn">Checkout via WhatsApp</button>
+</div>
+<script>
+// Nomor WhatsApp Admin tujuan
+const WA_ADMIN = "62895368416228"; // Agung
+// Bisa diganti menjadi Rendy jika user pilih admin lain
+
+// Tombol checkout diklik
+document.getElementById("checkoutWA").addEventListener("click", function() {
+  
+  // Ambil data keranjang dari localStorage
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+  // Validasi keranjang kosong
+  if (cart.length === 0) {
+    alert("Keranjang masih kosong. Silakan pilih produk terlebih dahulu.");
+    return;
+  }
+
+  // Format daftar produk
+  let listProduk = "";
+  let totalHarga = 0;
+
+  cart.forEach((item, index) => {
+    listProduk += `${index+1}. ${item.name} — Rp${item.price.toLocaleString()}\n`;
+    totalHarga += item.price;
+  });
+
+  // Data tambahan user
+  let namaUser = document.getElementById("inputNama")?.value || "-";
+  let judulLagu = document.getElementById("inputJudul")?.value || "-";
+  let catatan = document.getElementById("inputCatatan")?.value || "-";
+
+  // Format pesan WA modern
+  let pesan = 
+`Halo Admin PW Music,
+Saya ingin melakukan pemesanan remix.
+
+🛒 Detail Keranjang:
+${listProduk}
+💰 Total Pembayaran: Rp${totalHarga.toLocaleString()}
+
+Nama: ${namaUser}
+Judul Lagu: ${judulLagu}
+Catatan Tambahan: ${catatan}
+
+Terima kasih!
+`;
+
+  // Redirect ke WhatsApp
+  let url = "https://wa.me/" + WA_ADMIN + "?text=" + encodeURIComponent(pesan);
+  window.open(url, "_blank");
+});
+</script>
+<section class="price-100k">
+  <h2 class="price-title">Style Remix 100 Ribuan</h2>
+  <div id="priceList100k" class="price-grid"></div>
+</section>
+
+<style>
+/* SECTION */
+.price-100k {
+  padding: 22px;
+  margin-top: 25px;
+}
+
+/* JUDUL */
+.price-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #F5D37A;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(255, 215, 130, 0.5);
+}
+
+/* GRID 2 KOLOM MEWAH */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 18px;
+}
+
+/* CARD MEWAH */
+.price-card {
+  background: rgba(15, 15, 15, 0.9);
+  border-radius: 18px;
+  padding: 18px;
+
+  border: 1px solid rgba(255, 200, 120, 0.12);
+  backdrop-filter: blur(8px);
+
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.55),
+    inset 0 0 20px rgba(255, 220, 130, 0.08);
+
+  transition: 0.35s ease;
+}
+
+.price-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 8px 30px rgba(255, 210, 130, 0.25),
+    inset 0 0 24px rgba(255, 210, 130, 0.15);
+}
+
+/* TITLE STYLE EMAS */
+.price-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #F5D37A;
+  margin-bottom: 8px;
+  text-shadow: 0 0 6px rgba(255, 210, 130, 0.4);
+}
+
+/* DESKRIPSI */
+.price-card p {
+  color: #DDD;
+  font-size: 13px;
+  opacity: 0.85;
+  margin-bottom: 12px;
+}
+
+/* BUTTON EMAS GLOW */
+.price-card .wa-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg, #FFE9A5, #F5C45A);
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+
+  box-shadow:
+    0 4px 12px rgba(255, 220, 130, 0.35),
+    inset 0 0 10px rgba(255, 240, 160, 0.4);
+
+  transition: 0.3s ease;
+}
+
+.price-card .wa-btn:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 6px 20px rgba(255, 215, 130, 0.6),
+    inset 0 0 16px rgba(255, 240, 160, 0.5);
+}
+
+/* RESPONSIVE HP (1 KOLOM) */
+@media (max-width: 600px) {
+  .price-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+</style>
+<script>
+  const price100List = [
+  {
+    name: "Maman Fvndy Style",
+    desc: "Clean bass viral, cocok untuk konten elegan.",
+    price: 100000
+  },
+  {
+    name: "DJ Opus Style",
+    desc: "Jedag jedug halus khas Opus.",
+    price: 100000
+  },
+  {
+    name: "Horeg Trap",
+    desc: "Bass trap + efek horeg modern.",
+    price: 100000
+  },
+  {
+    name: "Jungle Dutch",
+    desc: "Beat agresif cepat ala jungle dutch.",
+    price: 100000
+  },
+  {
+    name: "Jedag Jedug Classic",
+    desc: "Drop keras, cocok untuk konten viral.",
+    price: 100000
+  },
+  {
+    name: "Sound TikTok Viral",
+    desc: "Mix ala sound TikTok viral.",
+    price: 100000
+  }
+];
+
+// Render
+const listContainer = document.getElementById("priceList100k");
+
+price100List.forEach(item => {
+  const card = `
+    <div class="price-card">
+      <h3>${item.name}</h3>
+      <p>${item.desc}</p>
+      <a class="wa-btn" href="https://wa.me/628xxxxxxx?text=Halo%20PW%20Music%20saya%20ingin%20order%20${encodeURIComponent(item.name)}%20harga%20${item.price}">
+        Pesan via WhatsApp
+      </a>
+    </div>
+  `;
+  listContainer.innerHTML += card;
+});
+
+</script>
+<style>
+  /* ==== SCROLL REVEAL ANIMATION ==== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all .8s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+
+<script>
+// ==== SCROLL REVEAL TANPA DOBEL ====
+document.addEventListener("DOMContentLoaded", () => {
+
+  const reveals = document.querySelectorAll('.reveal');
+  let ticking = false; // mencegah event dobel
+
+  function revealOnScroll() {
+    reveals.forEach(el => {
+      if (el.classList.contains("show")) return; // biar gak diproses 2x
+
+      const pos = el.getBoundingClientRect().top;
+      if (pos < window.innerHeight - 80) {
+        el.classList.add("show");
+      }
+    });
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(revealOnScroll);
+      ticking = true;
+    }
+  });
+
+  revealOnScroll(); // jalankan pertama
+});
+</script>
+<audio id="bg-music" loop preload="auto">
+  <source src="bgm.mp3" type="audio/mp3">
+</audio>
+
+<style>
+audio {
+  display: none !important;
+}
+</style>
+
+<script>
+document.addEventListener("click", function() {
+  const audio = document.getElementById("bg-music");
+  audio.volume = 1;
+  audio.play();
+}, { once: true });
+</script>
+
+
+</body>
+</html>
